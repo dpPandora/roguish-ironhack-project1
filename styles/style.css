@@ -1,0 +1,53 @@
+body {
+    margin: 0;
+    padding: 0;
+
+    display: grid;
+
+
+    grid-template-columns: 1fr 512px 512px 1fr;
+    grid-template-rows: 1fr 384px 384px 1fr;
+    grid-template-areas: 
+        ". . . ."
+        ". map inv ."
+        ". cons inv ."
+        ". . . .";
+    gap: 16px 16px;
+    place-items: center;
+    place-content: center;
+
+    background-color: black;
+}
+
+#dispArea {
+    margin: 0;
+    padding: 0;
+
+    grid-area: map;
+
+    border: 1px green solid;
+}
+
+#console {
+    margin: 0;
+    padding: 0;
+
+    width: 512px;
+    height: 384px;
+
+    grid-area: cons;
+
+    border: 1px green solid;
+}
+
+#info {
+    margin: 0;
+    padding: 0;
+
+    width: 512px;
+    height: 784px;
+
+    grid-area: inv;
+
+    border: 1px green solid;
+}
