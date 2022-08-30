@@ -80,21 +80,30 @@ class level {
             return b.roomY - a.roomY;
         })
 
+        console.log(this.rooms)
+
         let pathy = [];
-        let tempR = Array.from(this.rooms)
+        let tempR = [];
+
+        this.rooms.forEach((ele) => {
+            //console.log(ele);
+            tempR.push(ele);
+        })
+
+        console.log(tempR[0]);
         
+        console.log(pathy);
         pathy.push(tempR[0]);
-        //console.log(pathy);
         tempR.shift();
 
         let pathyIndex = 0;
-
+//rewrite
         while (tempR.length != 0) {
             //console.log(pathy);
             //console.log(tempR);
             //let closestRoom;
-            let closestRoomDist;
-            let closestIndex;
+            let closestRoomDist = undefined;
+            let closestIndex = undefined;
             for(let i = 0; i < tempR.length; i++) {
                 //let diffX, pathX, tempRX
                 //if tempR[i].roomX < pathy[index].roomX then use tempR[i].roomW
@@ -111,9 +120,9 @@ class level {
                 let diffX, pathX, tempRX;
                 if (tempR[i].roomX < pathy[pathyIndex].roomX) {
                     pathX = pathy[pathyIndex].roomX;
-                    tempRX = tempR[i].roomW;
+                    tempRX = tempR[i].roomX + tempR[i].roomW;
                 } else {
-                    pathX = pathy[pathyIndex].roomW;
+                    pathX = pathy[pathyIndex].roomX + pathy[pathyIndex].roomW;
                     tempRX = tempR[i].roomX;
                 }
 
@@ -122,24 +131,26 @@ class level {
                 let diffY, pathY, tempRY;
                 if (tempR[i].roomY < pathy[pathyIndex].roomY) {
                     pathY = pathy[pathyIndex].roomY;
-                    tempRY = tempR[i].roomH;
+                    tempRY = tempR[i].roomY + tempR[i].roomH;
                 } else {
-                    pathY = pathy[pathyIndex].roomH;
+                    pathY = pathy[pathyIndex].roomY + pathy[pathyIndex].roomH;
                     tempRY = tempR[i].roomY;
                 }
 
                 diffY = pathY - tempRY;
 
-                let dist = Math.sqrt(diffY^2 + diffX^2);
+                let dist = Math.sqrt((diffY * diffY) + (diffX * diffX));
+                //console.log(diffY +" "+ diffX +" "+ dist);
                 //console.log(dist);
-                if (dist > closestRoomDist || closestRoomDist === undefined) {
+                if (dist < closestRoomDist || closestRoomDist === undefined) {
                     closestRoomDist = dist;
                     closestIndex = i;
                 }
             }
             pathy.push(tempR[closestIndex]);
             tempR.splice(closestIndex, 1);
-            //console.log(tempR);
+            console.log(pathy);
+            console.log(tempR);
             pathyIndex++;
         }
        console.log(pathy);
@@ -166,7 +177,31 @@ class level {
             }
         }
 
-        
+        for(let from = 0; from < this.rooms.length - 1; from++) {
+            let to = from + 1;
+            let location = "";
+            //get current room and next room
+            //check if the ycords of the reciver are above or below the sender
+            //if (rooms[from].roomY < rooms[to].roomH || rooms[from].roomH > rooms[to].roomY) location top or bottom
+            //if (rooms[from].roomX < rooms[to].roomW || rooms[from].roomW > rooms[to].roomX) location left or right
+            if (this.rooms[from].roomY > (this.rooms[to].roomY + this.rooms[to].roomH)) location += "top";
+            else if ((this.rooms[from].roomY + this.rooms[from].roomH) < this.rooms[to].roomY) location += "bottom";
+
+            if ((this.rooms[to].roomX + this.rooms[to].roomW) < this.rooms[from].roomX) location += "left";
+            else if ((this.rooms[from].roomX + this.rooms[from].roomW) < this.rooms[to].roomX) location += "right";
+            //if (topleft) choose point on left edge of sender and point on bottom edge of reciver 
+            //if (bottomleft)
+            //if (topright)
+            //if (bottomright)
+
+            //if (top)
+            //if (bottom)
+            //if (left)
+            //if (right)
+            console.log(this.rooms[from]);
+            console.log(location);
+            console.log(this.rooms[to])
+        }
     }
 
     printMap() {//test function, i dont think ill need this for the final version
