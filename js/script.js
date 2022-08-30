@@ -28,6 +28,10 @@ function mapDemo() {
     ctx.clearRect(0, 0, 512, 384);
     let relativeX = currentX - Math.floor((resX / pixel) / 2);
     let relativeY = currentY - Math.floor((resY / pixel) / 2);
+    let overlayX = relativeX;
+    let overlayY = relativeY;
+    let overlayXmax = overlayX + Math.floor(resX / pixel);
+    let overlayYmax = overlayY + Math.floor(resY / pixel);
 
     for(let y = 0; y < resY; y += pixel) {
         for(let x = 0; x < resX; x += pixel) {
@@ -59,6 +63,14 @@ function mapDemo() {
         relativeX = currentX - Math.floor((resX / pixel) / 2);
         relativeY++;
     }
+    let dispRooms = [];
+
+    map.rooms.forEach((e) => {
+        //x or x + width and y or y + height falls between overlay
+        //x > overlayX || x + width > overlayX && y > overlayY || y + height > overlayY
+        //if(e.roomX > overlayX || e.roomX + e.roomW > overlayX && e.roomY > overlayY || e.roomY + e.roomH > overlayY) 
+    })
+
     //currentX++;
     //currentY++;
 }

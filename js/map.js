@@ -73,6 +73,82 @@ class level {
         })
 
         this.rooms = this.rooms.slice(0, this.complexity);
+
+        //starting here is code for path between room generation
+
+        this.rooms.sort((a, b) => {
+            return b.roomY - a.roomY;
+        })
+
+        let pathy = [];
+        let tempR = Array.from(this.rooms)
+        
+        pathy.push(tempR[0]);
+        //console.log(pathy);
+        tempR.shift();
+
+        let pathyIndex = 0;
+
+        while (tempR.length != 0) {
+            //console.log(pathy);
+            //console.log(tempR);
+            //let closestRoom;
+            let closestRoomDist;
+            let closestIndex;
+            for(let i = 0; i < tempR.length; i++) {
+                //let diffX, pathX, tempRX
+                //if tempR[i].roomX < pathy[index].roomX then use tempR[i].roomW
+                //else use pathy[index].roomW and tempR[i].roomX
+                //what the x cords overlap but have different y?
+
+                //let diffY, pathY, tempRY
+                //if tempR[i].roomY < pathy[index].roomY then use tempR[i].roomH
+                //else use pathy[index].roomH and tempR[i].roomY
+
+                //should i test distance by x and y or by the like diagonal line (i cannot spell :<)
+                //i dont really wanna handle two more variables so ill make it the line thing
+
+                let diffX, pathX, tempRX;
+                if (tempR[i].roomX < pathy[pathyIndex].roomX) {
+                    pathX = pathy[pathyIndex].roomX;
+                    tempRX = tempR[i].roomW;
+                } else {
+                    pathX = pathy[pathyIndex].roomW;
+                    tempRX = tempR[i].roomX;
+                }
+
+                diffX = pathX - tempRX;
+
+                let diffY, pathY, tempRY;
+                if (tempR[i].roomY < pathy[pathyIndex].roomY) {
+                    pathY = pathy[pathyIndex].roomY;
+                    tempRY = tempR[i].roomH;
+                } else {
+                    pathY = pathy[pathyIndex].roomH;
+                    tempRY = tempR[i].roomY;
+                }
+
+                diffY = pathY - tempRY;
+
+                let dist = Math.sqrt(diffY^2 + diffX^2);
+                //console.log(dist);
+                if (dist > closestRoomDist || closestRoomDist === undefined) {
+                    closestRoomDist = dist;
+                    closestIndex = i;
+                }
+            }
+            pathy.push(tempR[closestIndex]);
+            tempR.splice(closestIndex, 1);
+            //console.log(tempR);
+            pathyIndex++;
+        }
+       console.log(pathy);
+       console.log(this.rooms);
+
+       this.rooms = Array.from(pathy);
+       
+       console.log(pathy);
+       console.log(this.rooms);
     }
 
     mapRooms() {
@@ -89,6 +165,8 @@ class level {
                 }
             }
         }
+
+        
     }
 
     printMap() {//test function, i dont think ill need this for the final version
@@ -116,7 +194,7 @@ class level {
     }
 }
 
-let test = new level;
-test.roomGen();
-test.mapRooms();
+//let test = new level;
+//test.roomGen();
+//test.mapRooms();
 //testLevel.printMap();
