@@ -102,6 +102,10 @@ class level {
             //console.log(pathy);
             //console.log(tempR);
             //let closestRoom;
+            let pathyFrom = pathy[pathyIndex];
+            let fromMX = pathyFrom.roomX + pathyFrom.roomW;
+            let fromMY = pathyFrom.roomY + pathyFrom.roomH;
+
             let closestRoomDist = undefined;
             let closestIndex = undefined;
             for(let i = 0; i < tempR.length; i++) {
@@ -109,7 +113,65 @@ class level {
                 //tempR[i]
                 //im going to compare the distance between the corner of each room, it going to be long ugly code but ffs itll work, i hope
 
+                let tempTo = tempR[i];
+                let tempMX = tempTo.roomX + tempTo.roomW;
+                let tempMY = tempTo.roomY + tempTo.roomH;
 
+                let minDistX;
+                let minDistY;
+
+                //how do i do this without looking like a fool
+                let distXfromLeft = Math.abs(pathyFrom.roomX - tempMX);
+                let distXfromRight = Math.abs(tempTo.roomX - fromMX);
+                let distXo = Math.abs(pathyFrom.roomX - tempTo.roomX);
+                //i hate this there has to be a better way
+
+                let distYfromTop = Math.abs(pathyFrom.roomY - tempMY);
+                let distYfromBottom = Math.abs(tempTo.roomY - fromMY);
+                let distYo = Math.abs(pathyFrom.roomY - tempTo.roomY);
+                //maybe i can just use distXo distYo, which is the distance between the origin x and y, and subtract one of the widths/height and from there if its not then equal to 0 ill know which side to use?
+
+                //am i really about to use a bunch of if statements?
+                if ( distXfromLeft <= distXfromRight && distXfromLeft <= distXo) {
+                    minDistX = distXfromLeft;
+                }
+                else if (distXfromRight <= distXfromLeft && distXfromRight <= distXo) {
+                    minDistX = distXfromRight;
+                }
+                else if (distXo <= distXfromLeft && distXo <= distXfromRight) {
+                    minDistX = distXo;
+                }
+                else {
+                    console.log(`<Error> distXfromLeft: ${distXfromLeft}\ndistXfromRight: ${distXfromRight}\ndistXo: ${distXo}`);
+                }
+                //if im going to compare the distance from the origins... i dont know its so hard to think this through
+
+                if (distYfromTop <= distYfromBottom && distYfromTop <= distYo) {
+                    minDistY = distYfromTop;
+                }
+                else if (distYfromBottom <= distYfromTop && distYfromBottom <= distYo) {
+                    minDistY = distYfromBottom;
+                }
+                else if (distYo <= distYfromTop && distYo <= distYfromBottom) {
+                    minDistY = distYo;
+                } 
+                else {
+                    console.log(`<Error> distYfromTop: ${distYfromTop}\ndistYfromBottom: ${distYfromBottom}\ndistYo: ${distYo}`);
+                }
+                
+                if (minDistX === undefined || minDistY === undefined) {
+                    console.log(`<Error> Either minDistX or minDistY is undefined (or both)`);
+                }
+                else {
+                    let pyth = Math.round(Math.sqrt((Math.pow(minDistX, 2) + Math.pow(minDistY, 2))));
+
+                    if (closestRoomDist > pyth || closestRoomDist === undefined) {
+                        closestRoomDist = pyth;
+                        closestIndex = i;
+                        console.log(`closest room to ( ${pathyFrom.roomX}, ${pathyFrom.roomY}) set to ( ${tempTo.roomX}, ${tempTo.roomY}) with a distance of ${pyth} (xDist = ${minDistX}, yDist = ${minDistY})`);
+                    }
+                }
+                console.log(i);
                 /*
                 //let diffX, pathX, tempRX
                 //if tempR[i].roomX < pathy[index].roomX then use tempR[i].roomW
@@ -153,21 +215,30 @@ class level {
                 }
 */
             }
+            console.log(`pushing ( ${tempR[closestIndex].roomX}, ${tempR[closestIndex].roomY})`);
             pathy.push(tempR[closestIndex]);
             tempR.splice(closestIndex, 1);
-            console.log(pathy);
-            console.log(tempR);
+            //console.log(pathy);
+            //console.log(tempR);
             pathyIndex++;
-            break;
+            //break;
         }
-       console.log(pathy);
-       console.log(this.rooms);
 
-       this.rooms = Array.from(pathy);
-       
-       console.log(pathy);
-       console.log(this.rooms);
+        //end of path sort code
+        
+        console.log("sorted path");
+        console.log(pathy);
+        console.log("original rooms");
+        console.log(this.rooms);
+
+        this.rooms = Array.from(pathy);
+
+        console.log("rooms set to path sorting (should be atleast)");
+        //console.log(pathy);
+        console.log(this.rooms);
     }
+
+    //room gen is still a little quirky,,, but maybe thats a good thing?
 
     mapRooms() {
         console.log("Mapping rooms");
@@ -205,9 +276,9 @@ class level {
             //if (bottom)
             //if (left)
             //if (right)
-            console.log(this.rooms[from]);
+            console.log(`( ${this.rooms[from].roomX}, ${this.rooms[from].roomY})`);
             console.log(location);
-            console.log(this.rooms[to])
+            console.log(`to`);
         }
     }
 
