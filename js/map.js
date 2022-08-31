@@ -105,6 +105,12 @@ class level {
             let closestRoomDist = undefined;
             let closestIndex = undefined;
             for(let i = 0; i < tempR.length; i++) {
+                //pathy[index]
+                //tempR[i]
+                //im going to compare the distance between the corner of each room, it going to be long ugly code but ffs itll work, i hope
+
+
+                /*
                 //let diffX, pathX, tempRX
                 //if tempR[i].roomX < pathy[index].roomX then use tempR[i].roomW
                 //else use pathy[index].roomW and tempR[i].roomX
@@ -116,7 +122,6 @@ class level {
 
                 //should i test distance by x and y or by the like diagonal line (i cannot spell :<)
                 //i dont really wanna handle two more variables so ill make it the line thing
-
                 let diffX, pathX, tempRX;
                 if (tempR[i].roomX < pathy[pathyIndex].roomX) {
                     pathX = pathy[pathyIndex].roomX;
@@ -146,12 +151,14 @@ class level {
                     closestRoomDist = dist;
                     closestIndex = i;
                 }
+*/
             }
             pathy.push(tempR[closestIndex]);
             tempR.splice(closestIndex, 1);
             console.log(pathy);
             console.log(tempR);
             pathyIndex++;
+            break;
         }
        console.log(pathy);
        console.log(this.rooms);
