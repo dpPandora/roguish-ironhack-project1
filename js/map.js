@@ -3,6 +3,7 @@ const mapHeight = 64;
 
 let empty = "00";
 let floor = "01";
+let debug = "02";
 //const empty = `\u2593\u2593`;
 //const floor = `\u2591\u2591`;
 
@@ -258,6 +259,12 @@ class level {
         for(let from = 0; from < this.rooms.length - 1; from++) {
             let to = from + 1;
             let location = "";
+            let startX = 0;
+            let startY = 0;
+            let endX = 0;
+            let endY = 0;
+            let distRun;
+            let distRise;
             //get current room and next room
             //check if the ycords of the reciver are above or below the sender
             //if (rooms[from].roomY < rooms[to].roomH || rooms[from].roomH > rooms[to].roomY) location top or bottom
@@ -265,8 +272,8 @@ class level {
             if (this.rooms[from].roomY > (this.rooms[to].roomY + this.rooms[to].roomH)) location += "top";
             else if ((this.rooms[from].roomY + this.rooms[from].roomH) < this.rooms[to].roomY) location += "bottom";
 
-            if ((this.rooms[to].roomX + this.rooms[to].roomW) < this.rooms[from].roomX) location += "left";
-            else if ((this.rooms[from].roomX + this.rooms[from].roomW) < this.rooms[to].roomX) location += "right";
+            if ((this.rooms[to].roomX + this.rooms[to].roomW - 1) < this.rooms[from].roomX) location += "left";
+            else if ((this.rooms[from].roomX + this.rooms[from].roomW) < (this.rooms[to].roomX + 1)) location += "right";
             //if (topleft) choose point on left edge of sender and point on bottom edge of reciver 
             //if (bottomleft)
             //if (topright)
@@ -276,6 +283,113 @@ class level {
             //if (bottom)
             //if (left)
             //if (right)
+            if (to === undefined) location = "end";
+
+            switch (location) {
+                case "topleft":
+                    //bottom of next room
+                    endY = this.rooms[to].roomY + this.rooms[to].roomH;
+                    endX = this.rooms[to].roomX + rand(this.rooms[to].roomW, 0, 1);
+                    
+                    //left of room
+                    startY = this.rooms[from].roomY + rand(this.rooms[from].roomH, 0, 1);
+                    startX = this.rooms[from].roomX - 1;
+
+                    this.map[endY][endX] = debug;
+                    this.map[startY][startX] = debug;
+                    break;
+                case "topright":
+                    //bottom of next room
+                    endY = this.rooms[to].roomY + this.rooms[to].roomH;
+                    endX = this.rooms[to].roomX + rand(this.rooms[to].roomW, 0, 1);
+                    
+                    //right of room
+                    startY = this.rooms[from].roomY + rand(this.rooms[from].roomH, 0, 1);
+                    startX = this.rooms[from].roomX + this.rooms[from].roomW;
+
+                    this.map[endY][endX] = debug;
+                    this.map[startY][startX] = debug;
+                    break;
+                case "bottomleft":
+                    //top of next room
+                    endY = this.rooms[to].roomY - 1;
+                    endX = this.rooms[to].roomX + rand(this.rooms[to].roomW, 0, 1);
+                    
+                    //left of room
+                    startY = this.rooms[from].roomY + rand(this.rooms[from].roomH, 0, 1);
+                    startX = this.rooms[from].roomX - 1;
+
+                    this.map[endY][endX] = debug;
+                    this.map[startY][startX] = debug;
+                    break;
+                case "bottomright":
+                    //top of next room
+                    endY = this.rooms[to].roomY - 1;
+                    endX = this.rooms[to].roomX + rand(this.rooms[to].roomW, 0, 1);
+                    
+                    //right of room
+                    startY = this.rooms[from].roomY + rand(this.rooms[from].roomH, 0, 1);
+                    startX = this.rooms[from].roomX + this.rooms[from].roomW;
+
+                    this.map[endY][endX] = debug;
+                    this.map[startY][startX] = debug;
+                    break;
+                //cases for the single directions should be,,, easier
+                case "top":
+                    //bottom of next room
+                    endY = this.rooms[to].roomY + this.rooms[to].roomH;
+                    endX = this.rooms[to].roomX + rand(this.rooms[to].roomW, 0, 1);
+
+                    //top of room
+                    startY = this.rooms[from].roomY - 1;
+                    startX = this.rooms[from].roomX + rand(this.rooms[from].roomW, 0, 1);
+
+                    break;
+                case "bottom":
+                    //top of next room
+                    endY = this.rooms[to].roomY - 1;
+                    endX = this.rooms[to].roomX + rand(this.rooms[to].roomW, 0, 1);
+
+                    //bottom of room
+                    startY = this.rooms[from].roomY + this.rooms[from].roomH;
+                    startX = this.rooms[from].roomX + rand(this.rooms[from].roomW, 0, 1);
+
+                    break;
+                case "left":
+                    //right of next room
+                    endY = this.rooms[to].roomY + rand(this.rooms[to].roomH, 0, 1);
+                    endX = this.rooms[to].roomX + this.rooms[to].roomW;
+
+                    //left of room
+                    startY = this.rooms[from].roomY + rand(this.rooms[from].roomH, 0, 1);
+                    startX = this.rooms[from].roomX - 1;
+                    break;
+                case "right":
+                    //left of next room
+                    endY = this.rooms[to].roomY + rand(this.rooms[to].roomH, 0, 1);
+                    endX = this.rooms[to].roomX - 1;
+
+                    //right of room
+                    startY = this.rooms[from].roomY + rand(this.rooms[from].roomH, 0, 1);
+                    startX = this.rooms[from].roomX + this.rooms[from].roomW;
+            }
+            this.map[endY][endX] = floor;
+            this.map[startY][startX] = floor;
+
+            distRun = endX - startX;
+            distRise = endY - startY;
+
+            let sideStep = (distRun < 0 ? -1 : 1);
+            let upStep = (distRise < 0 ? -1 : 1);
+
+            //this loop will be for testing not should not be used once everything is confirmed to be working
+            for (let stepY = startY; stepY != endY; stepY += upStep) {
+                this.map[stepY][startX] = floor;
+            }
+            for (let stepX = startX; stepX != endX; stepX += sideStep) {
+                this.map[endY][stepX] = floor;
+            }
+
             console.log(`( ${this.rooms[from].roomX}, ${this.rooms[from].roomY})`);
             console.log(location);
             console.log(`to`);

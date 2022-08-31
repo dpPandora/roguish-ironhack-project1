@@ -16,7 +16,7 @@ const mscre = {
     }
 }
 
-let pixel = 8;
+let pixel = 16;
 
 let currentX = map.rooms[0].roomX + (Math.floor(map.rooms[0].roomW / 2));
 let currentY = map.rooms[0].roomY + (Math.floor(map.rooms[0].roomH / 2));
@@ -57,6 +57,12 @@ function mapDemo() {
             else if (val === "01") {
                 //ctx.strokeStyle = "green";
                 //ctx.strokeRect(x, y, pixel, pixel);   
+            }
+            else if (val === "02") {
+                ctx.fillStyle = "purple";
+                ctx.fillRect(x, y, pixel, pixel);
+                ctx.strokeStyle = 'black';
+                ctx.strokeRect( x, y, pixel, pixel);
             }
             relativeX++;
         }
