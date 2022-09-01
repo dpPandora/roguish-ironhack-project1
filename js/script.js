@@ -16,7 +16,7 @@ const mscre = {
     }
 }
 
-let pixel = 16;
+let pixel = 8;
 
 let currentX = map.rooms[0].roomX + (Math.floor(map.rooms[0].roomW / 2));
 let currentY = map.rooms[0].roomY + (Math.floor(map.rooms[0].roomH / 2));

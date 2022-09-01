@@ -4,6 +4,7 @@ const mapHeight = 64;
 let empty = "00";
 let floor = "01";
 let debug = "02";
+let stairs = "04";
 //const empty = `\u2593\u2593`;
 //const floor = `\u2591\u2591`;
 
@@ -17,13 +18,15 @@ class roomTemp {
 }
 
 class level {
-    constructor(width = mapWidth, height = mapHeight, complex = 10) {
+    constructor(width = mapWidth, height = mapHeight, complex = 20) {
         this.width = width;
         this.height = height;
         this.complexity = complex;
 
         this.map = [];
+        this.topMap = [];
         this.emptyMap();
+        
 
         this.rooms = [];
     }
@@ -35,8 +38,10 @@ class level {
         console.log("Filling map array")
         for(let y = 0; y < maxHeight; y++) {
             this.map.push([]);
+            this.topMap.push([]);
             for(let x = 0; x < maxWidth; x++) {
                 this.map[y].push(empty);
+                this.topMap[y].push("");
             }
         }
     }
@@ -389,6 +394,7 @@ class level {
             for (let stepX = startX; stepX != endX; stepX += sideStep) {
                 this.map[endY][stepX] = floor;
             }
+            //ayyyy it works! rewrite this during finishing touches
 
             console.log(`( ${this.rooms[from].roomX}, ${this.rooms[from].roomY})`);
             console.log(location);
