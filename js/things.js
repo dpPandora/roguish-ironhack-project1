@@ -16,12 +16,23 @@ let mnster = "06";
 class creature {
     linkedLvl = {};
     posX = 0;//default
-    poxY = 0;//default
+    posY = 0;//default
     health = 10;//default
     dmg = 1;//default
     def = 0;//default
     name = "default";
+    texture = "";
 
+    constructor() {
+        this.linkedLvl = {};
+        this.posX = 0;//default
+        this.posY = 0;//default
+        this.health = 10;//default
+        this.dmg = 1;//default
+        this.def = 0;//default
+        this.name = "default";
+        this.texture = "";
+    };
     attack(target) {
         //get target.health and target.def
         //get attacker this.dmg
@@ -41,37 +52,141 @@ class creature {
     }
     //interact fucntion, should be called eachtime a creature tries to move to the next squre, will return whats on the next square
     interactUp() {
-        let val = this.linkedLvl.map[this.poxY - 1][this.posX];
-        let valTop = this.linkedLvl.topMap[this.poxY - 1][this.posX];
+        let val = this.linkedLvl.map[this.posY - 1][this.posX];
+        let valTop = this.linkedLvl.topMap[this.posY - 1][this.posX];
 
         let passVal = (valTop != "" ? valTop : val);
+        //console.log(passVal);
 
         switch (passVal) {
             case floor:
-            case wall:
+                this.linkedLvl.topMap[this.posY - 1][this.posX] = this.texture;
+                this.linkedLvl.topMap[this.posY][this.posX] = "";
+                this.posY -= 1;
+
+                break;
+            case empty:
+                //it would just say in console that it cant go there
+                break;
             case stairs:
+                alert("you win!");
+                //progress to the next level
+                break;
             case plyer:
+                //this is for monsters, if its a player it'll run attack();
+                break;
             case mnster:
+                //this is for players, if its a monster it'll run attack();
+                break;
             default://this'll probably only be activated on undef or an id i havent added yet
+                break;
         }
     }
     interactDown() {
-        let val = this.linkedLvl.map[this.poxY + 1][this.posX];
+        let val = this.linkedLvl.map[this.posY + 1][this.posX];
+        let valTop = this.linkedLvl.topMap[this.posY + 1][this.posX];
+
+        let passVal = (valTop != "" ? valTop : val);
+        //console.log(passVal);
+
+        switch (passVal) {
+            case floor:
+                this.linkedLvl.topMap[this.posY + 1][this.posX] = this.texture;
+                this.linkedLvl.topMap[this.posY][this.posX] = "";
+                this.posY += 1;
+
+                break;
+            case empty:
+                //it would just say in console that it cant go there
+                break;
+            case stairs:
+                alert("you win!");
+                //progress to the next level
+                break;
+            case plyer:
+                //this is for monsters, if its a player it'll run attack();
+                break;
+            case mnster:
+                //this is for players, if its a monster it'll run attack();
+                break;
+            default://this'll probably only be activated on undef or an id i havent added yet
+                break;
+        }
     }
     interactLeft() {
-        let val = this.linkedLvl.map[this.poxY][this.posX - 1];
+        let val = this.linkedLvl.map[this.posY][this.posX - 1];
+        let valTop = this.linkedLvl.topMap[this.posY][this.posX - 1];
+
+        let passVal = (valTop != "" ? valTop : val);
+        //console.log(passVal);
+
+        switch (passVal) {
+            case floor:
+                this.linkedLvl.topMap[this.posY][this.posX - 1] = this.texture;
+                this.linkedLvl.topMap[this.posY][this.posX] = "";
+                this.posX -= 1;
+
+                break;
+            case empty:
+                //it would just say in console that it cant go there
+                break;
+            case stairs:
+                alert("you win!");
+                //progress to the next level
+                break;
+            case plyer:
+                //this is for monsters, if its a player it'll run attack();
+                break;
+            case mnster:
+                //this is for players, if its a monster it'll run attack();
+                break;
+            default://this'll probably only be activated on undef or an id i havent added yet
+                break;
+        }
     }
     interactRight() {
-        let val = this.linkedLvl.map[this.poxY][this.posX + 1];
+        let val = this.linkedLvl.map[this.posY][this.posX + 1];
+        let valTop = this.linkedLvl.topMap[this.posY][this.posX + 1];
+
+        let passVal = (valTop != "" ? valTop : val);
+        //console.log(passVal);
+
+        switch (passVal) {
+            case floor:
+                this.linkedLvl.topMap[this.posY][this.posX + 1] = this.texture;
+                this.linkedLvl.topMap[this.posY][this.posX] = "";
+                this.posX += 1;
+
+                break;
+            case empty:
+                //it would just say in console that it cant go there
+                break;
+            case stairs:
+                alert("you win!");
+                //progress to the next level
+                break;
+            case plyer:
+                //this is for monsters, if its a player it'll run attack();
+                break;
+            case mnster:
+                //this is for players, if its a monster it'll run attack();
+                break;
+            default://this'll probably only be activated on undef or an id i havent added yet
+                break;
+        }
     }
 }
 
 class playable extends creature {
     constructor(lmap, posX, posY, health, name = "the player") {
+        super();
         this.linkedLvl = lmap;
         this.posX = posX;
         this.posY = posY;
         this.health = health;
         this.name = name;
+        this.texture = plyer;
+
+        this.linkedLvl.topMap[this.posY][this.posX] = this.texture;
     }
 }
