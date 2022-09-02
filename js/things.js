@@ -69,6 +69,7 @@ class creature {
                 //it would just say in console that it cant go there
                 break;
             case stairs:
+                mscre.end();
                 alert("you win!");
                 //progress to the next level
                 break;
