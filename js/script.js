@@ -1,6 +1,6 @@
-window.addEventListener('load', () => {
+/* window.addEventListener('load', () => {
     alert("this is just an extremely basic \"working\" demo, you can move with arrow keys and moving into the yellow box ends the game");
-})
+}) */
 
 let map = new level;
 map.roomGen();
@@ -126,6 +126,7 @@ function display() {
         relativeX = playX - Math.floor((resX / pixel) / 2);
         relativeY++;
     }
+    updateConsole();
 }
 
 //level assets

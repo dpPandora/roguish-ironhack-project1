@@ -66,6 +66,9 @@ class creature {
 
                 break;
             case empty:
+                if (this.texture === plyer) {
+                    consoleLog.push("I can't go there...");
+                };
                 //it would just say in console that it cant go there
                 break;
             case stairs:
@@ -98,6 +101,9 @@ class creature {
 
                 break;
             case empty:
+                if (this.texture === plyer) {
+                    consoleLog.push("I can't go there...");
+                };
                 //it would just say in console that it cant go there
                 break;
             case stairs:
@@ -130,6 +136,9 @@ class creature {
 
                 break;
             case empty:
+                if (this.texture === plyer) {
+                    consoleLog.push("I can't go there...");
+                };
                 //it would just say in console that it cant go there
                 break;
             case stairs:
@@ -162,6 +171,9 @@ class creature {
 
                 break;
             case empty:
+                if (this.texture === plyer) {
+                    consoleLog.push("I can't go there...");
+                };
                 //it would just say in console that it cant go there
                 break;
             case stairs:

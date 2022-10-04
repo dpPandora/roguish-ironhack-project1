@@ -1,1 +1,5 @@
 # roguish-ironhack-project1
+## What is it?
+Roguish is my submission for the first project in the Ironhack Web Development course. The goal was to create a game that would display through a static webpage. At the time we only knew of html, css, and javascript but now we've covered the majorty of full stack web development, i.e. ExpressJS, Handlebars, Mongoose, APIs, React, and probably a couple more things that I don't know by name because I am a silly dumb idiot.
+
+As for the game itself, it my attempt at copying the game Rogue(1980). I am a very big fan of roguelikes and Rogue, and I find the gameplay loop interesting and a fun concept to toy around with. In this gameplay loop, as a brutally deconstructed simplification, you explore a dungeon or closed map defeating enemies and obtaining upgrades, items, or artifacts that improve your abilities or add new ones to increase your chances of survival against the ever increasing horde of enemies.
